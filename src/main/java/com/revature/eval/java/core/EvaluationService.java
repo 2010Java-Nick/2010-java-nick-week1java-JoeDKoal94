@@ -1,6 +1,9 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +33,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		 	String output = "";
+			output += phrase.charAt(0);
+		
+		for (int i = 1; i < phrase.length(); i++) {
+			if (Character.isWhitespace(phrase.charAt(i))) {
+				output = output + phrase.charAt(i);
+				output += phrase.charAt(i+1);
+			}
+ 		}
+		
+		return output.replaceAll("\\s+","").toUpperCase();
 	}
 
 	/**
@@ -84,17 +96,27 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo && sideTwo == sideThree)
+			{
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
+			if(sideOne == sideTwo || sideTwo == sideThree || sideOne == sideThree)
+			{
+				return true;
+			}
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			if(sideOne != sideTwo && sideTwo != sideThree)
+			{
+				return true;
+			}
 			return false;
 		}
 
@@ -117,7 +139,37 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int score = 0;
+		String word = string.toUpperCase();
+		for(int i = 0; i < word.length(); i++) {
+			switch(word.charAt(i)) {
+			case 'G': score += 2; break;
+            case 'D': score += 2; break;
+
+            case 'B': score += 3; break;
+            case 'C': score += 3; break;
+            case 'M': score += 3; break;
+            case 'P': score += 3; break;
+
+            case 'F': score += 4; break;
+            case 'H': score += 4; break;
+            case 'V': score += 4; break;
+            case 'W': score += 4; break;
+            case 'Y': score += 4; break;
+
+            case 'K': score += 5; break;
+
+            case 'J': score += 8; break;
+            case 'X': score += 8; break;
+
+            case 'Q': score += 10; break;
+            case 'Z': score += 10; break;
+            
+
+            default: score += 1;
+			}
+		}
+		return score;
 	}
 
 	/**
@@ -152,8 +204,11 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String str = string.replaceAll("\\D+","");
+		if(str.length() != 10) {
+			throw new IllegalArgumentException();
+		}
+		return str;
 	}
 
 	/**
@@ -166,8 +221,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		
+		String[] word = string.split(" ");
+		
+		Map<String, Integer> howMuchWord = new HashMap<String, Integer>();
+		for (int i = 0; i < word.length; i++)
+		{
+			String key = word[i];
+			int number = howMuchWord.getOrDefault(key, 0);
+			howMuchWord.put(key, ++number);	
+		}
+		return howMuchWord;
 	}
 
 	/**
@@ -210,7 +275,8 @@ public class EvaluationService {
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
-			return 0;
+			int index = Collections.binarySearch(sortedList, t, null);
+			return index;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -267,7 +333,23 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
+		String word = Integer.toString(input);
+		
+		int exponent = String.valueOf(input).length();
+		double value = 0;
+		for(int i = 0; i < exponent; i++)
+		{
+			value = value + Math.pow((word.charAt(i) - '0'), exponent);
+		}
+		if(value == input)
+		{
+			return true;
+		}
+		
+		else {
+		
 		return false;
+		}
 	}
 
 	/**
@@ -282,7 +364,17 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> primeNumbers = new ArrayList<>();
+		for(long i = 2; i< l; i++) {
+	         while(l%i == 0) {
+	            primeNumbers.add(i);
+	            l = l/i;
+	         }
+	      }
+		if(l > 2) {
+			primeNumbers.add(l);
+		}
+		return primeNumbers;
 	}
 
 	/**
@@ -321,7 +413,20 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			StringBuffer result= new StringBuffer();
+			  
+			for (char character : string.toCharArray()) {
+			    if (character != ' ') {
+			        int originalAlphabetPosition = character - 'a';
+			        int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
+			        char newCharacter = (char) ('a' + newAlphabetPosition);
+			        result.append(newCharacter);
+			    } else {
+			        result.append(character);
+			    }
+	        
+	        String res = result.toString();
+	        return res;
 		}
 
 	}
