@@ -1,5 +1,7 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -700,7 +702,37 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		
+	       int year = 0;
+	       int month = 0;
+	       int day = 0;
+	       int hour = 0;
+	       int minute = 0;
+	       int second = 0;
+
+	      
+	       if (given.isSupported(ChronoField.YEAR)){
+	           year = given.get(ChronoField.YEAR);
+	       }
+	       if (given.isSupported(ChronoField.MONTH_OF_YEAR)) {
+	           month = given.get(ChronoField.MONTH_OF_YEAR);
+	       }
+	       if (given.isSupported(ChronoField.DAY_OF_MONTH)) {
+	           day = given.get(ChronoField.DAY_OF_MONTH);
+	       }
+	       if (given.isSupported(ChronoField.HOUR_OF_DAY)) {
+	           hour = given.get(ChronoField.HOUR_OF_DAY);
+	       }
+	       if (given.isSupported(ChronoField.MINUTE_OF_DAY)) {
+	           minute = given.get(ChronoField.MINUTE_OF_DAY);
+	       }
+	       if (given.isSupported(ChronoField.SECOND_OF_DAY)) {
+	           second = given.get(ChronoField.SECOND_OF_DAY);
+	       }
+
+	       given = LocalDateTime.of(year, month, day, hour, minute, second).plusSeconds(1000000000);
+
+	       return given;
 	}
 
 	/**
@@ -718,7 +750,20 @@ public class EvaluationService {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		int total = 0;
+		for(int x = 1; x < i; x++)
+		{
+			for(int y = 0; y < set.length; y++)
+			{
+				if(x % set[y] == 0)
+				{
+					total = total + x;
+					break;
+				}
+			}
+		}
+		
+		return total;
 	}
 
 	/**
@@ -759,6 +804,34 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
+		string = string.replaceAll(" ", "");
+		int size = string.length();
+		int[] values = new int[size];
+		int total = 0;
+		for(int i = 0; i < size; i++)
+		{
+			if(Character.isDigit(string.charAt(i)) == true) {
+			values[i] = Integer.parseInt(string.valueOf(string.charAt(i)));
+			if((i+1) % 2 == 0)
+			{
+				values[i] = values[i] + values[i];
+				if(values[i] > 9)
+				{
+					values[i] = values[i] - 9;
+				}
+			}
+			
+			total = total + values[i];
+			}
+			else {
+				return false;
+			}
+		}
+		if(total % 10 == 0)
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -791,7 +864,54 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		string = string.replace("What is ", "");
+		string = string.replace("?", "");
+		string.trim();
+		String[] words = null;
+		int num1 = 0;
+		int num2 = 0;
+		int option = 0;
+		int total = 0;
+		
+		words = string.split(" ");
+		
+		for(int i = 0; i < words.length; i++)
+		{
+			
+				if(i == 0) {
+					
+						num1 = Integer.parseInt(words[i]);
+						
+				}
+				if(i == 3) {
+					
+						num2 = Integer.parseInt(words[i]);
+					   
+				}
+			
+			if(words[i].charAt(0) == 'p') {
+				option = 1;
+			}
+			else if(words[i].matches("minus")) {
+				option = 2;
+			}
+			else if(words[i].matches("multiplied")) {
+				option = 3;
+			}
+			else if(words[i].matches("divided")) {
+				option = 4;
+			}
+		}
+		
+		switch(option) {
+		
+		case 1: total = num1 + num2; break;
+		case 2: total = num1 - num2; break;
+		case 3: total = num1 * num2; break;
+		case 4: total = num1 / num2; break;
+		default: total = 0; break;
+		}
+		return total;
 	}
 
 }
