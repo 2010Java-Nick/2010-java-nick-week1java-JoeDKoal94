@@ -450,12 +450,12 @@ public class EvaluationService {
 		int num, count, x;
 	    num=1;
 	    count=0;
-	 
+	    if(i < 1) {
+	    	throw new IllegalArgumentException();
+	    }
 	    while (count < i){
 	      num=num+1;
-	      if(num == 2) {
-	    	  count = count + 1;
-	      }
+	  
 	      for (x = 2; x <= num; x++){ //Here we will loop from 2 to num
 	        if (num % x == 0) {
 	          break;
@@ -466,7 +466,7 @@ public class EvaluationService {
 	      }
 	    }
 		
-		return count;
+		return num;
 	}
 
 	/**
@@ -501,9 +501,48 @@ public class EvaluationService {
 		 * @param string
 		 * @return
 		 */
+		
+		
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			String allchar = "abcdefghijklmnopqrstuvwxyz";
+			string = string.replaceAll(" ", "");
+			string = string.replaceAll("\\.", "");
+	        string = string.toLowerCase();
+	        int len= string.length();
+	        int len1 = allchar.length();
+	        boolean notLetter = false;
+	        String word="";
+	        for(int i=0; i<len; i++)
+	           {
+	        	if(i % 5 == 0 && i != 0)
+	        	{
+	        		word+=" ";
+	        	}
+	               char a = string.charAt(i);
+	               for(int j=0; j<len1; j++)
+	               {
+	                   char c=allchar.charAt(j);
+	                   if(c == a )
+	                   {
+	                       int index=allchar.indexOf(c);
+	                       int position=(len1-1)-index;
+	                       word += allchar.charAt(position);
+	                       notLetter = false;
+	                       break;
+	                       
+	                   }
+	                   else {
+	                	   notLetter = true;
+	                   }
+	                   
+	               }
+	               if(notLetter == true) {
+	            	   word += string.charAt(i);
+	            	   notLetter = false;
+	               }
+		}
+	        return word;
 		}
 
 		/**
@@ -514,7 +553,41 @@ public class EvaluationService {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			String allchar = "abcdefghijklmnopqrstuvwxyz";
+			string = string.replaceAll(" ", "");
+			string = string.replaceAll("\\.", "");
+	        string = string.toLowerCase();
+	        int len= string.length();
+	        int len1 = allchar.length();
+	        boolean notLetter = false;
+	        String word="";
+	        for(int i=0; i<len; i++)
+	           {
+	        	
+	               char a = string.charAt(i);
+	               for(int j=0; j<len1; j++)
+	               {
+	                   char c=allchar.charAt(j);
+	                   if(c == a )
+	                   {
+	                       int index=allchar.indexOf(c);
+	                       int position=(len1-1)-index;
+	                       word += allchar.charAt(position);
+	                       notLetter = false;
+	                       break;
+	                       
+	                   }
+	                   else {
+	                	   notLetter = true;
+	                   }
+	                   
+	               }
+	               if(notLetter == true) {
+	            	   word += string.charAt(i);
+	            	   notLetter = false;
+	               }
+		}
+	        return word;
 		}
 	}
 
@@ -542,6 +615,34 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
+		string = string.replaceAll("-", "");
+		int total = 0;
+		int temp = 0;
+		for(int i = 0, j = 10; i < string.length(); i++, j--)
+		{
+			char a = string.charAt(i);
+			if (Character.isDigit(string.charAt(i)) == true)
+			{
+				temp = Integer.parseInt(string.valueOf(a));
+				total = total + (temp*j);
+			}
+			else if (j == 1) {
+				if(a == 'X') {
+					total = total + (10*j);
+				}
+			}
+			
+				else {
+					return false;
+				}
+			
+			
+		}
+		
+		if(total % 11 == 0)
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -559,7 +660,33 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
+		String allchar = "abcdefghijklmnopqrstuvwxyz";
+		string = string.replaceAll(" ", "");
+        string = string.toLowerCase();
+        int len= string.length();
+        int len1 = allchar.length();
+        for(int i=0; i<len; i++)
+           {
+        	
+               char a = string.charAt(i);
+               for(int j=0; j<len1; j++)
+               {
+                   char c=allchar.charAt(j);
+                   if(c == a )
+                   {
+                      allchar = allchar.replace(string.charAt(i) , ' ');
+                   }
+                   
+               }
+               
+               
+               
+	}
+        allchar = allchar.trim();
+        allchar = allchar.replaceAll(" ", "");
+        if(allchar.isEmpty() || allchar == "") {
+     	   return true;
+        }
 		return false;
 	}
 
