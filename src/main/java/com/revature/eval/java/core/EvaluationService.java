@@ -416,7 +416,7 @@ public class EvaluationService {
 			StringBuffer result= new StringBuffer();
 			  
 			for (char character : string.toCharArray()) {
-			    if (character != ' ') {
+			    if (character >= 65) {
 			        int originalAlphabetPosition = character - 'a';
 			        int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
 			        char newCharacter = (char) ('a' + newAlphabetPosition);
@@ -424,6 +424,7 @@ public class EvaluationService {
 			    } else {
 			        result.append(character);
 			    }
+			}
 	        
 	        String res = result.toString();
 	        return res;
@@ -445,7 +446,27 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		int num, count, x;
+	    num=1;
+	    count=0;
+	 
+	    while (count < i){
+	      num=num+1;
+	      if(num == 2) {
+	    	  count = count + 1;
+	      }
+	      for (x = 2; x <= num; x++){ //Here we will loop from 2 to num
+	        if (num % x == 0) {
+	          break;
+	        }
+	      }
+	      if ( x == num){//if it is a prime number
+	        count = count+1;
+	      }
+	    }
+		
+		return count;
 	}
 
 	/**
