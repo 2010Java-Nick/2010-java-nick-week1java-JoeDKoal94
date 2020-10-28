@@ -36,6 +36,7 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		 	String output = "";
+		 	phrase = phrase.replace('-', ' ');
 			output += phrase.charAt(0);
 		
 		for (int i = 1; i < phrase.length(); i++) {
@@ -224,7 +225,9 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		
-		
+		string = string.replaceAll("\n", "");
+		string = string.replaceAll(",", " ");
+		string = string.trim();
 		String[] word = string.split(" ");
 		
 		Map<String, Integer> howMuchWord = new HashMap<String, Integer>();
@@ -315,7 +318,57 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		String firstLetter = "";
+        String restOfWord = "";
+        String vowels = "aeio";
+		String[] word = string.split(" ");		
+		int currentLetter = 0;
+		boolean isVowels = false;
+		String sentence ="";
+
+		for (int i = 0; i < word.length; i++)
+ {
+	 firstLetter = "";
+     currentLetter = 0;
+     isVowels = false;
+     restOfWord = "";
+     
+     
+     for(int x = 0; x < word[i].length(); x++) {
+    	 char a = word[i].charAt(x);
+    	 for(int y = 0; y < vowels.length();y++)
+    	 {
+    		 if(a == vowels.charAt(y)) {
+    			 isVowels = true;
+    			 break;
+    		 }
+    	 }
+    	 
+    	 if(isVowels == true) {
+    		 break;
+    	 }
+    	 if(isVowels == false) {
+    	 firstLetter = firstLetter + a;
+    	 currentLetter = 1;
+     }
+     }
+     
+     
+     
+     if (currentLetter == 0)
+     {
+    	 word[i] = word[i] + "ay";
+         
+     }
+     else
+     {
+    	 restOfWord = word[i].substring(word[i].indexOf(firstLetter) +  firstLetter.length()) + firstLetter + "ay";
+    	 word[i] = restOfWord;
+     }
+     
+     
+ }
+ return String.join(" ", word);
 	}
 
 	/**
@@ -374,6 +427,10 @@ public class EvaluationService {
 	         }
 	      }
 		if(l > 2) {
+			primeNumbers.add(l);
+		}
+		
+		if(l == 2) {
 			primeNumbers.add(l);
 		}
 		return primeNumbers;
@@ -892,13 +949,13 @@ public class EvaluationService {
 			if(words[i].charAt(0) == 'p') {
 				option = 1;
 			}
-			else if(words[i].matches("minus")) {
+			else if(words[i].contains("minus")) {
 				option = 2;
 			}
-			else if(words[i].matches("multiplied")) {
+			else if(words[i].contains("multiplied")) {
 				option = 3;
 			}
-			else if(words[i].matches("divided")) {
+			else if(words[i].contains("divided")) {
 				option = 4;
 			}
 		}
