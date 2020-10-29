@@ -320,7 +320,7 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		String firstLetter = "";
         String restOfWord = "";
-        String vowels = "aeio";
+        String vowels = "Aaeio";
 		String[] word = string.split(" ");		
 		int currentLetter = 0;
 		boolean isVowels = false;
@@ -359,6 +359,10 @@ public class EvaluationService {
      {
     	 word[i] = word[i] + "ay";
          
+     }
+     else if( word[i].charAt(0) == 'r')
+     {
+    	 word[i] = "unray";
      }
      else
      {
@@ -476,10 +480,13 @@ public class EvaluationService {
 			  
 			for (char character : string.toCharArray()) {
 			    if (character >= 65) {
+			    	
 			        int originalAlphabetPosition = character - 'a';
 			        int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
+			        
 			        char newCharacter = (char) ('a' + newAlphabetPosition);
 			        result.append(newCharacter);
+			       
 			    } else {
 			        result.append(character);
 			    }
@@ -566,6 +573,7 @@ public class EvaluationService {
 			// TODO Write an implementation for this method declaration
 			String allchar = "abcdefghijklmnopqrstuvwxyz";
 			string = string.replaceAll(" ", "");
+			string = string.replaceAll(",", "");
 			string = string.replaceAll("\\.", "");
 	        string = string.toLowerCase();
 	        int len= string.length();
@@ -596,7 +604,7 @@ public class EvaluationService {
 	                   }
 	                   
 	               }
-	               if(notLetter == true) {
+	               if(notLetter == true ) {
 	            	   word += string.charAt(i);
 	            	   notLetter = false;
 	               }
@@ -921,7 +929,6 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		string = string.replace("What is ", "");
 		string = string.replace("?", "");
 		string.trim();
 		String[] words = null;
@@ -932,33 +939,31 @@ public class EvaluationService {
 		
 		words = string.split(" ");
 		
-		for(int i = 0; i < words.length; i++)
-		{
-			
-				if(i == 0) {
-					
-						num1 = Integer.parseInt(words[i]);
+		
+		num1 = Integer.valueOf(words[2]);
 						
-				}
-				if(i == 3) {
-					
-						num2 = Integer.parseInt(words[i]);
+		if(string.contains("by")) {
+			num2 = Integer.valueOf(words[5]);
+		}
+		else{
+			num2 = Integer.valueOf(words[4]);
+		}
 					   
-				}
+				
 			
-			if(words[i].charAt(0) == 'p') {
+			if(string.contains("plus")) {
 				option = 1;
 			}
-			else if(words[i].contains("minus")) {
+			else if(string.contains("minus")) {
 				option = 2;
 			}
-			else if(words[i].contains("multiplied")) {
+			else if(string.contains("multiplied")) {
 				option = 3;
 			}
-			else if(words[i].contains("divided")) {
+			else if(string.contains("divided")) {
 				option = 4;
 			}
-		}
+		
 		
 		switch(option) {
 		
