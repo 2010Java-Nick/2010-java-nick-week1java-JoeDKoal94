@@ -2,6 +2,7 @@ package com.revature.eval.java.core;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -468,6 +469,8 @@ public class EvaluationService {
 	 */
 	static class RotationalCipher {
 		private int key;
+		
+		boolean isUpper = false;
 
 		public RotationalCipher(int key) {
 			super();
@@ -480,12 +483,22 @@ public class EvaluationService {
 			  
 			for (char character : string.toCharArray()) {
 			    if (character >= 65) {
+			    	if(character < 'a') {
+			    		character = Character.toLowerCase(character);
+			    		isUpper = true;
+			    	}
 			    	
 			        int originalAlphabetPosition = character - 'a';
 			        int newAlphabetPosition = (originalAlphabetPosition + key) % 26;
 			        
 			        char newCharacter = (char) ('a' + newAlphabetPosition);
+			        if(isUpper == true) {
+			    		newCharacter = Character.toUpperCase(newCharacter);
+			    		isUpper = false;
+			    	}
 			        result.append(newCharacter);
+			        
+			        
 			       
 			    } else {
 			        result.append(character);
@@ -794,8 +807,8 @@ public class EvaluationService {
 	       if (given.isSupported(ChronoField.SECOND_OF_DAY)) {
 	           second = given.get(ChronoField.SECOND_OF_DAY);
 	       }
-
-	       given = LocalDateTime.of(year, month, day, hour, minute, second).plusSeconds(1000000000);
+	       
+	       given = LocalDateTime.of(year, month, day, hour, minute, second).plus(1_000_000_000, ChronoUnit.SECONDS);
 
 	       return given;
 	}
