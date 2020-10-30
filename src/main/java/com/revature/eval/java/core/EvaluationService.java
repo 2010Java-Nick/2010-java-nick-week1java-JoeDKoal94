@@ -1,5 +1,6 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -780,37 +781,15 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		
-	       int year = 0;
-	       int month = 0;
-	       int day = 0;
-	       int hour = 0;
-	       int minute = 0;
-	       int second = 0;
 
-	      
-	       if (given.isSupported(ChronoField.YEAR)){
-	           year = given.get(ChronoField.YEAR);
-	       }
-	       if (given.isSupported(ChronoField.MONTH_OF_YEAR)) {
-	           month = given.get(ChronoField.MONTH_OF_YEAR);
-	       }
-	       if (given.isSupported(ChronoField.DAY_OF_MONTH)) {
-	           day = given.get(ChronoField.DAY_OF_MONTH);
-	       }
-	       if (given.isSupported(ChronoField.HOUR_OF_DAY)) {
-	           hour = given.get(ChronoField.HOUR_OF_DAY);
-	       }
-	       if (given.isSupported(ChronoField.MINUTE_OF_DAY)) {
-	           minute = given.get(ChronoField.MINUTE_OF_DAY);
-	       }
-	       if (given.isSupported(ChronoField.SECOND_OF_DAY)) {
-	           second = given.get(ChronoField.SECOND_OF_DAY);
+	       if(given.isSupported(ChronoUnit.SECONDS) == false) {
+	    	   LocalDate dates = LocalDate.from(given);
+	    	   LocalDateTime dateTimes= dates.atStartOfDay();
+	    	   return dateTimes.plusSeconds(1000000000);
 	       }
 	       
-	       given = LocalDateTime.of(year, month, day, hour, minute, second).plus(1_000_000_000, ChronoUnit.SECONDS);
-
-	       return given;
+	      
+	       return given.plus(1_000_000_000, ChronoUnit.SECONDS);
 	}
 
 	/**
